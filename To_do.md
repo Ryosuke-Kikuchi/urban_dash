@@ -11,7 +11,7 @@ I. 開発環境・プロジェクト準備
 [x] 選択したクロスプラットフォームフレームワークのSDKインストールと設定
 React Native の場合: React Native CLI, Watchman (macOS)
 Flutter の場合: Flutter SDK, Dart SDK
-[ ] Gitクライアントのインストールと設定
+[x] Gitクライアントのインストールと設定
 [ ] 2. バージョン管理システムの導入:
 [x] Gitリポジトリをローカルで初期化 (git init)
 [x] リモートリポジトリの作成 (例: GitHub, GitLab) と連携 (git remote add origin ...)
