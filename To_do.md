@@ -14,7 +14,7 @@ Flutter の場合: Flutter SDK, Dart SDK
 [ ] Gitクライアントのインストールと設定
 [ ] 2. バージョン管理システムの導入:
 [x] Gitリポジトリをローカルで初期化 (git init)
-[ ] リモートリポジトリの作成 (例: GitHub, GitLab) と連携 (git remote add origin ...)
+[x] リモートリポジトリの作成 (例: GitHub, GitLab) と連携 (git remote add origin ...)
 [x] .gitignore ファイルの作成と適切な設定 (OS固有ファイル、IDE設定ファイル、node_modulesなど)
 [ ] 3. Firebase プロジェクトの作成と設定:
 [ ] Firebaseコンソール (console.firebase.google.com) で新規プロジェクト作成
