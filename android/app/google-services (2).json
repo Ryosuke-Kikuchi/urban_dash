@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "354069605491",
+    "project_id": "urban-dash-65508",
+    "storage_bucket": "urban-dash-65508.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354069605491:android:3ea56fe74351d6d1ecce06",
+        "android_client_info": {
+          "package_name": "com.urbandash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCe8eX8M0fjlES5oNgO5fEqYhbl28VtMDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354069605491:android:1fcdbe3184f28ea5ecce06",
+        "android_client_info": {
+          "package_name": "com.urbandash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCe8eX8M0fjlES5oNgO5fEqYhbl28VtMDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
