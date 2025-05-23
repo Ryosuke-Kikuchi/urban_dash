@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # OSX
 #
 .DS_Store
@@ -74,9 +73,9 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
-=======
-node_modules/
+
+# Environment variables
 .env
-.DS_Store
+
+# Logs
 *.log
->>>>>>> 043b1c3c011cdf4f4f7259d259ba5261124b6365
