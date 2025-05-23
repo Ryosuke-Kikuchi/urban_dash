@@ -19,8 +19,8 @@ Flutter の場合: Flutter SDK, Dart SDK
 [ ] 3. Firebase プロジェクトの作成と設定:
 [ ] Firebaseコンソール (console.firebase.google.com) で新規プロジェクト作成
 [ ] プロジェクト設定でAndroidアプリを追加 (パッケージ名は事前に決めておく 例: com.example.urbandash)
-[ ] google-services.json ファイルをダウンロードし、Androidプロジェクトの適切な場所 (android/app/) に配置
-[ ] Firebase SDKをAndroidプロジェクトに導入 (build.gradleファイルへの追記など、公式ドキュメント参照)
+[x] google-services.json ファイルをダウンロードし、Androidプロジェクトの適切な場所 (android/app/) に配置
+[x] Firebase SDKをAndroidプロジェクトに導入 (build.gradleファイルへの追記など、公式ドキュメント参照)
 [x] 4. クロスプラットフォームプロジェクトの初期化:
 [x] 選択したフレームワークでプロジェクトを作成
 React Native の場合: npx react-native init UrbanDash (またはTypeScriptテンプレートで npx react-native init UrbanDash --template react-native-template-typescript)
