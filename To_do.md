@@ -17,8 +17,8 @@ Flutter の場合: Flutter SDK, Dart SDK
 [x] リモートリポジトリの作成 (例: GitHub, GitLab) と連携 (git remote add origin ...)
 [x] .gitignore ファイルの作成と適切な設定 (OS固有ファイル、IDE設定ファイル、node_modulesなど)
 [ ] 3. Firebase プロジェクトの作成と設定:
-[ ] Firebaseコンソール (console.firebase.google.com) で新規プロジェクト作成
-[ ] プロジェクト設定でAndroidアプリを追加 (パッケージ名は事前に決めておく 例: com.example.urbandash)
+[x] Firebaseコンソール (console.firebase.google.com) で新規プロジェクト作成
+[x] プロジェクト設定でAndroidアプリを追加 (パッケージ名は事前に決めておく 例: com.example.urbandash)
 [x] google-services.json ファイルをダウンロードし、Androidプロジェクトの適切な場所 (android/app/) に配置
 [x] Firebase SDKをAndroidプロジェクトに導入 (build.gradleファイルへの追記など、公式ドキュメント参照)
 [x] 4. クロスプラットフォームプロジェクトの初期化:
