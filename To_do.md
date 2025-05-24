@@ -25,19 +25,19 @@ Flutter の場合: Flutter SDK, Dart SDK
 [x] 選択したフレームワークでプロジェクトを作成
 React Native の場合: npx react-native init UrbanDash (またはTypeScriptテンプレートで npx react-native init UrbanDash --template react-native-template-typescript)
 Flutter の場合: flutter create urban_dash
-[ ] プロジェクトがエミュレータ/実機で正常に起動することを確認
-[ ] 初期ファイルを最初のコミットとしてGitリポジトリにプッシュ
+[x] プロジェクトがエミュレータ/実機で正常に起動することを確認
+[x] 初期ファイルを最初のコミットとしてGitリポジトリにプッシュ
 II. Firebase連携と基本設定
 [ ] 5. Firebase SDKのフロントエンドへの導入:
-[ ] Firebase連携ライブラリのインストール
+[x] Firebase連携ライブラリのインストール
 React Native: @react-native-firebase/app, @react-native-firebase/auth, @react-native-firebase/firestore
 Flutter: firebase_core, firebase_auth, cloud_firestore
-[ ] アプリ起動時にFirebaseを初期化するコードを追加
-[ ] 6. Firebase Authentication の有効化:
-[ ] Firebaseコンソール > Authentication > Sign-in method で「メール/パスワード」認証を有効化
-[ ] 7. Firestoreデータベースの初期設定:
+[x] アプリ起動時にFirebaseを初期化するコードを追加
+[x] 6. Firebase Authentication の有効化:
+[x] Firebaseコンソール > Authentication > Sign-in method で「メール/パスワード」認証を有効化
+[x] Firestoreデータベースの初期設定:
 [ ] Firebaseコンソール > Firestore Database でデータベースを作成 (テストモードまたは本番モードを選択。開発初期はテストモードでも可だが、セキュリティルールは後で必ず設定)
-[ ] セキュリティルールの初期設定（開発中は緩めに設定し、機能実装後に適切に制限することを意識する。例：認証済みユーザーのみ読み書き可能など）
+[x] セキュリティルールの初期設定（開発中は緩めに設定し、機能実装後に適切に制限することを意識する。例：認証済みユーザーのみ読み書き可能など）
 III. アカウント機能の実装 (MVP)
 [ ] 8. UIコンポーネントライブラリの選定・導入 (任意だが強く推奨):
 React Native: React Native Elements, React Native Paper, NativeBase など
