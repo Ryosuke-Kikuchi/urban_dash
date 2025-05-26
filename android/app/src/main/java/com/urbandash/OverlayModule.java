@@ -362,7 +362,8 @@ public class OverlayModule extends ReactContextBaseJavaModule {
                 850, // 固定高さ
                 layoutFlag,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | 
-                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT
             );
 
@@ -569,10 +570,10 @@ public class OverlayModule extends ReactContextBaseJavaModule {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             serviceSpinner.setAdapter(adapter);
 
-            // 入力フィールドのフォーカス設定
-            rewardInput.setFocusableInTouchMode(true);
-            estimatedTimeInput.setFocusableInTouchMode(true);
-            distanceInput.setFocusableInTouchMode(true);
+            // 入力フィールドのフォーカス設定とタッチリスナー
+            setupInputFieldFocus(rewardInput);
+            setupInputFieldFocus(estimatedTimeInput);
+            setupInputFieldFocus(distanceInput);
 
             // 配達ボタンのクリックリスナー（START/FINISH切り替え）
             deliveryButton.setOnClickListener(v -> {
@@ -756,6 +757,51 @@ public class OverlayModule extends ReactContextBaseJavaModule {
                         ", view bounds (screen): left=" + viewLeft + ", top=" + viewTop + ", right=" + viewRight + ", bottom=" + viewBottom);
                     
                     return screenX >= viewLeft && screenX <= viewRight && screenY >= viewTop && screenY <= viewBottom;
+                }
+            });
+        }
+
+        private void setupInputFieldFocus(EditText editText) {
+            if (editText == null) return;
+            
+            editText.setFocusableInTouchMode(true);
+            editText.setOnTouchListener((v, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    android.util.Log.d("OverlayModule", "Input field touched, enabling focus");
+                    
+                    // 一時的にフォーカス可能にする
+                    params.flags &= ~WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                    windowManager.updateViewLayout(overlayView, params);
+                    
+                    // フォーカスを設定してキーボードを表示
+                    v.requestFocus();
+                    android.view.inputmethod.InputMethodManager imm = 
+                        (android.view.inputmethod.InputMethodManager) getSystemService(android.content.Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.showSoftInput(v, android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT);
+                    }
+                    
+                    // 少し待ってからフォーカスを無効に戻す（入力中は有効のまま）
+                    new android.os.Handler().postDelayed(() -> {
+                        if (!v.hasFocus()) {
+                            params.flags |= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                            windowManager.updateViewLayout(overlayView, params);
+                            android.util.Log.d("OverlayModule", "Input field focus disabled");
+                        }
+                    }, 500);
+                }
+                return false; // 通常のタッチ処理も実行
+            });
+            
+            // フォーカス変更リスナーを追加
+            editText.setOnFocusChangeListener((v, hasFocus) -> {
+                if (!hasFocus) {
+                    // フォーカスを失った時にオーバーレイのフォーカスを無効にする
+                    new android.os.Handler().postDelayed(() -> {
+                        params.flags |= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                        windowManager.updateViewLayout(overlayView, params);
+                        android.util.Log.d("OverlayModule", "Input field lost focus, overlay focus disabled");
+                    }, 100);
                 }
             });
         }
