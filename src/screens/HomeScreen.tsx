@@ -3,11 +3,12 @@ import { View, StyleSheet, Alert, TouchableOpacity, Text, ScrollView, Platform, 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // MaterialIconsから変更
 import { useAuth } from '../context/AuthContext';
 import { useWork } from '../context/WorkContext';
-import { useOverlay } from '../contexts/OverlayContext';
+// import { useOverlay } from '../contexts/OverlayContext';
 import { TextInput } from 'react-native'; // TextInputをインポート
 
+
 const HomeScreen = () => {
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
   const { 
     state: workState, // stateをworkStateにリネームして区別
     startWork, 
@@ -22,10 +23,10 @@ const HomeScreen = () => {
     // getWaitingTime
   } = useWork();
 
-  const { 
-    isOverlayEnabled, 
-    overlaySettings
-  } = useOverlay();
+  // const { 
+  //   isOverlayEnabled, 
+  //   overlaySettings
+  // } = useOverlay();
 
   const [isOnline, setIsOnline] = useState(false); // オンライン状態を管理
   const [workStartTime, setWorkStartTime] = useState<Date | null>(null);
@@ -42,7 +43,7 @@ const HomeScreen = () => {
   const weeklyTarget = 70000; // 仮の週間目標金額
   
   // 今日の売上（workStateから取得）
-  const todayEarnings = workState.totalEarnings;
+  // const todayEarnings = workState.totalEarnings;
 
   // 今週データをworkStateから取得
   const weeklyEarnings = workState.weeklyEarnings;
@@ -240,6 +241,8 @@ const HomeScreen = () => {
 
   const platforms = ["Uber Eats", "出前館", "Wolt", "menu", "Rocket now"];
 
+
+
   if (isOnline) {
     // オンライン時の画面
     return (
@@ -406,6 +409,8 @@ const HomeScreen = () => {
           <View style={styles.startButtonIndicator} />
           <Text style={styles.startWorkingButtonText}>Start Working</Text>
         </TouchableOpacity>
+
+
       </ScrollView>
     </View>
   );

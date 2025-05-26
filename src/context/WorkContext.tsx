@@ -38,6 +38,7 @@ export interface WorkState {
   weeklyAverageHourlyRate: number;
   isLoading: boolean;
   error: string | null;
+  isWorking: boolean; // 勤務中かどうかを示すプロパティ
 }
 
 // アクションの型定義
@@ -74,6 +75,7 @@ const initialState: WorkState = {
   weeklyAverageHourlyRate: 0,
   isLoading: false,
   error: null,
+  isWorking: false,
 };
 
 // リデューサー
@@ -97,6 +99,7 @@ function workReducer(state: WorkState, action: WorkAction): WorkState {
         totalCases: 0,
         todayCases: [],
         error: null,
+        isWorking: true,
       };
     
     case 'END_WORK':
@@ -106,6 +109,7 @@ function workReducer(state: WorkState, action: WorkAction): WorkState {
         currentSessionId: null,
         currentSession: null,
         currentBreakStart: null,
+        isWorking: false,
       };
     
     case 'START_BREAK':
@@ -165,6 +169,7 @@ function workReducer(state: WorkState, action: WorkAction): WorkState {
         todayCases: action.payload.cases,
         totalCases: action.payload.cases.length,
         totalEarnings: sessionEarnings,
+        isWorking: true,
       };
     
     case 'RESET_STATE':

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#802DD4BF" /> <!-- 50%透明のエメラルド -->
+    <stroke android:width="2dp" android:color="#FFFFFF" /> <!-- 白い枠線を追加 -->
+</shape> 

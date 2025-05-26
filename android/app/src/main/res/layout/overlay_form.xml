@@ -1,146 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="280dp"
-    android:layout_height="220dp"
-    android:background="@drawable/overlay_form_background"
-    android:padding="16dp">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="380dp"
+    android:layout_height="850dp"
+    android:background="@drawable/overlay_form_background">
 
-    <LinearLayout
+    <!-- ドラッグハンドルエリア -->
+    <View
+        android:id="@+id/drag_handle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="30dp"
+        android:layout_gravity="top"
+        android:background="@drawable/drag_handle_bg" />
 
-        <!-- デリバリーサービス -->
-        <Spinner
-            android:id="@+id/service_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/input_background"
-            android:layout_marginBottom="8dp" />
+    <ScrollView
+        android:id="@+id/overlay_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="32dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="12dp"
+        android:paddingTop="4dp"
+        android:fillViewport="true">
 
-        <!-- 報酬金額 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
+            android:orientation="vertical"
+            android:paddingTop="2dp">
 
-            <EditText
-                android:id="@+id/reward_input"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_weight="1"
+            <!-- デリバリーサービス -->
+            <Spinner
+                android:id="@+id/service_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
                 android:background="@drawable/input_background"
-                android:hint="500"
-                android:textColorHint="#666666"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:inputType="number"
-                android:paddingHorizontal="8dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:clickable="true" />
+                android:layout_marginBottom="8dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- 報酬金額 -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="円"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="6dp">
+
+                <EditText
+                    android:id="@+id/reward_input"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/input_background"
+                    android:hint="500"
+                    android:textColorHint="#666666"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:inputType="number"
+                    android:paddingHorizontal="12dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="円"
+                    android:textColor="#E0E0E0"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="6dp" />
+
+            </LinearLayout>
+
+            <!-- 予測時間 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="6dp">
+
+                <EditText
+                    android:id="@+id/estimated_time_input"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/input_background"
+                    android:hint="15"
+                    android:textColorHint="#666666"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:inputType="number"
+                    android:paddingHorizontal="12dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分"
+                    android:textColor="#E0E0E0"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="4dp" />
+
+            </LinearLayout>
+
+            <!-- 距離 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="6dp">
+
+                <EditText
+                    android:id="@+id/distance_input"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/input_background"
+                    android:hint="2.5"
+                    android:textColorHint="#666666"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:inputType="numberDecimal"
+                    android:paddingHorizontal="12dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="km"
+                    android:textColor="#E0E0E0"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="4dp" />
+
+            </LinearLayout>
+
+            <!-- 配達ボタン（START/FINISH切り替え） -->
+            <Button
+                android:id="@+id/delivery_button"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:text="START"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:background="@drawable/save_button_background"
+                android:layout_marginBottom="8dp" />
+
+            <!-- 経過時間表示 -->
+            <TextView
+                android:id="@+id/elapsed_time_display"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="経過時間: 00:00"
                 android:textColor="#E0E0E0"
                 android:textSize="12sp"
-                android:layout_marginLeft="4dp" />
+                android:gravity="center" />
 
         </LinearLayout>
 
-        <!-- 予測時間 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
+    </ScrollView>
 
-            <EditText
-                android:id="@+id/estimated_time_input"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_weight="1"
-                android:background="@drawable/input_background"
-                android:hint="15"
-                android:textColorHint="#666666"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:inputType="number"
-                android:paddingHorizontal="8dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:clickable="true" />
+    <View
+        android:id="@+id/minimized_dot"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center"
+        android:background="@drawable/minimized_dot_bg"
+        android:visibility="gone" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="分"
-                android:textColor="#E0E0E0"
-                android:textSize="12sp"
-                android:layout_marginLeft="4dp" />
-
-        </LinearLayout>
-
-        <!-- 距離 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
-
-            <EditText
-                android:id="@+id/distance_input"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_weight="1"
-                android:background="@drawable/input_background"
-                android:hint="2.5"
-                android:textColorHint="#666666"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:inputType="numberDecimal"
-                android:paddingHorizontal="8dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:clickable="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="km"
-                android:textColor="#E0E0E0"
-                android:textSize="12sp"
-                android:layout_marginLeft="4dp" />
-
-        </LinearLayout>
-
-        <!-- 配達ボタン（START/FINISH切り替え） -->
-        <Button
-            android:id="@+id/delivery_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="START"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:background="@drawable/save_button_background"
-            android:layout_marginBottom="8dp" />
-
-        <!-- 経過時間表示 -->
-        <TextView
-            android:id="@+id/elapsed_time_display"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="経過時間: 00:00"
-            android:textColor="#E0E0E0"
-            android:textSize="12sp"
-            android:gravity="center" />
-
-    </LinearLayout>
-
-</ScrollView> 
+</FrameLayout> 

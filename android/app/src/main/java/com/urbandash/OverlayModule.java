@@ -358,10 +358,11 @@ public class OverlayModule extends ReactContextBaseJavaModule {
             }
 
             params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
+                380, // 固定幅
+                850, // 固定高さ
                 layoutFlag,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | 
+                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT
             );
 
@@ -477,6 +478,22 @@ public class OverlayModule extends ReactContextBaseJavaModule {
                         public void onAnimationEnd(android.animation.Animator animation) {
                             isMinimized[0] = true;
                             android.util.Log.d("OverlayModule", "Minimized state set to true");
+                            
+                            // 最小化時にサイズを変更
+                            params.width = 140;
+                            params.height = 140;
+                            windowManager.updateViewLayout(overlayView, params);
+                            
+                            // フォーム要素を非表示にして、最小化ドットのみ表示
+                            overlayView.findViewById(R.id.service_spinner).setVisibility(View.GONE);
+                            overlayView.findViewById(R.id.reward_input).setVisibility(View.GONE);
+                            overlayView.findViewById(R.id.estimated_time_input).setVisibility(View.GONE);
+                            overlayView.findViewById(R.id.distance_input).setVisibility(View.GONE);
+                            overlayView.findViewById(R.id.delivery_button).setVisibility(View.GONE);
+                            overlayView.findViewById(R.id.elapsed_time_display).setVisibility(View.GONE);
+                            
+                            // 背景を最小化ドット用に変更
+                            overlayView.setBackgroundResource(R.drawable.minimized_dot_bg);
                         }
                     });
                     animator.start();
@@ -524,6 +541,22 @@ public class OverlayModule extends ReactContextBaseJavaModule {
                         public void onAnimationEnd(android.animation.Animator animation) {
                             isMinimized[0] = false;
                             android.util.Log.d("OverlayModule", "Minimized state set to false");
+                            
+                            // 展開時にサイズを元に戻す
+                            params.width = 380;
+                            params.height = 850;
+                            windowManager.updateViewLayout(overlayView, params);
+                            
+                            // フォーム要素を再表示
+                            overlayView.findViewById(R.id.service_spinner).setVisibility(View.VISIBLE);
+                            overlayView.findViewById(R.id.reward_input).setVisibility(View.VISIBLE);
+                            overlayView.findViewById(R.id.estimated_time_input).setVisibility(View.VISIBLE);
+                            overlayView.findViewById(R.id.distance_input).setVisibility(View.VISIBLE);
+                            overlayView.findViewById(R.id.delivery_button).setVisibility(View.VISIBLE);
+                            overlayView.findViewById(R.id.elapsed_time_display).setVisibility(View.VISIBLE);
+                            
+                            // 背景を透明に戻す
+                            overlayView.setBackgroundColor(0x00000000);
                         }
                     });
                     animator.start();

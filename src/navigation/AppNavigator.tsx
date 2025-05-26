@@ -12,9 +12,11 @@ import HistoryScreen from '../screens/HistoryScreen';
 import StatisticsScreen from '../screens/StatisticsScreen';
 import AccountSettingsScreen from '../screens/AccountSettingsScreen';
 import OverlaySettingsScreen from '../screens/OverlaySettingsScreen';
+// import MapScreen from '../screens/MapScreen';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 import { WorkProvider } from '../context/WorkContext';
 import { OverlayProvider } from '../contexts/OverlayContext';
+import { GpsProvider } from '../context/GpsContext';
 
 export type AuthStackParamList = {
   SignUp: undefined;
@@ -24,6 +26,7 @@ export type AuthStackParamList = {
 
 export type MainTabParamList = {
   Home: undefined;
+  Map: undefined;
   History: undefined;
   Statistics: undefined;
   AccountSettings: undefined;
@@ -121,6 +124,16 @@ const MainNavigator = () => {
         }}
       />
       <MainTab.Screen 
+        name="Map" 
+        component={HomeScreen}
+        options={{
+          title: '地図',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="map" size={size} color={color} />
+          ),
+        }}
+      />
+      <MainTab.Screen 
         name="History" 
         component={HistoryScreen}
         options={{
@@ -195,9 +208,11 @@ const AppContent = () => {
 
   return user ? (
     <WorkProvider>
-      <OverlayProvider>
-        <MainStackNavigator />
-      </OverlayProvider>
+      <GpsProvider>
+        <OverlayProvider>
+          <MainStackNavigator />
+        </OverlayProvider>
+      </GpsProvider>
     </WorkProvider>
   ) : (
     <AuthNavigator />

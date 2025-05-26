@@ -35,16 +35,22 @@ export default class OverlayService {
   private onFormSubmittedCallback: ((data: FormData) => void) | null = null;
 
   private constructor() {
+    console.log('OverlayService: Constructor called');
     this.settings = {
       isEnabled: false,
       position: { x: 50, y: 200 },
       opacity: 0.8,
       size: 60,
     };
+    console.log('OverlayService: Initial settings:', JSON.stringify(this.settings));
     this.loadSettings().then(() => {
+      console.log('OverlayService: Settings loaded:', JSON.stringify(this.settings));
       // 設定読み込み後にリスナーを設定
       this.setupAppStateListener();
       this.setupOverlayEventListener();
+      // 初期化時はオーバーレイを非表示にする（アプリがフォアグラウンドにいるため）
+      console.log('OverlayService: Calling hideOverlay() during initialization');
+      this.hideOverlay();
     });
   }
 
@@ -162,6 +168,11 @@ export default class OverlayService {
    * オーバーレイを表示する
    */
   public async showOverlay(): Promise<boolean> {
+    console.log('OverlayService: showOverlay() called');
+    console.log('OverlayService: Platform.OS =', Platform.OS);
+    console.log('OverlayService: isShowingOverlay =', this.isShowingOverlay);
+    console.log('OverlayService: isOverlayVisible =', this.isOverlayVisible);
+    
     if (Platform.OS !== 'android') {
       console.warn('Overlay is only supported on Android');
       return false;
@@ -182,29 +193,43 @@ export default class OverlayService {
     this.isShowingOverlay = true;
 
     try {
+      console.log('OverlayService: Checking overlay permission...');
       const hasPermission = await this.checkOverlayPermission();
+      console.log('OverlayService: Permission check result:', hasPermission);
+      
       if (!hasPermission) {
         console.warn('OverlayService: Overlay permission not granted');
+        this.isShowingOverlay = false;
         return false;
       }
 
       console.log('OverlayService: Starting overlay display...');
       const { OverlayModule } = NativeModules;
+      console.log('OverlayService: OverlayModule available:', !!OverlayModule);
+      
       if (OverlayModule) {
-        await OverlayModule.showOverlay();
+        console.log('OverlayService: Calling OverlayModule.showOverlay()...');
+        const result = await OverlayModule.showOverlay();
+        console.log('OverlayService: Native showOverlay() result:', result);
         console.log('OverlayService: Native overlay form service started');
+      } else {
+        console.error('OverlayService: OverlayModule is not available');
+        this.isShowingOverlay = false;
+        return false;
       }
 
       this.isOverlayVisible = true;
-      // 設定のisEnabledは変更しない（表示状態と設定状態を分離）
+      console.log('OverlayService: Set isOverlayVisible to true');
       
       console.log('OverlayService: Overlay form shown successfully');
       return true;
     } catch (error) {
       console.error('OverlayService: Error showing overlay:', error);
+      this.isShowingOverlay = false;
       return false;
     } finally {
       this.isShowingOverlay = false;
+      console.log('OverlayService: showOverlay() completed - isVisible:', this.isOverlayVisible);
     }
   }
 
@@ -212,6 +237,8 @@ export default class OverlayService {
    * オーバーレイを非表示にする
    */
   public async hideOverlay(): Promise<void> {
+    console.log('OverlayService: hideOverlay() called - isHiding:', this.isHidingOverlay, 'isVisible:', this.isOverlayVisible);
+    
     // 既に非表示処理中の場合はスキップ
     if (this.isHidingOverlay) {
       console.log('OverlayService: Hide overlay already in progress, skipping');
@@ -227,21 +254,25 @@ export default class OverlayService {
     this.isHidingOverlay = true;
 
     try {
-      console.log('OverlayService: Hiding overlay...');
+      console.log('OverlayService: Attempting to hide overlay...');
       const { OverlayModule } = NativeModules;
       if (OverlayModule) {
+        console.log('OverlayService: Calling OverlayModule.hideOverlay()');
         await OverlayModule.hideOverlay();
-        console.log('OverlayService: Native overlay hidden');
+        console.log('OverlayService: Native overlay hideOverlay() completed');
+      } else {
+        console.error('OverlayService: OverlayModule is not available');
       }
 
       this.isOverlayVisible = false;
-      // 設定のisEnabledは変更しない（表示状態と設定状態を分離）
+      console.log('OverlayService: Set isOverlayVisible to false');
       
       console.log('OverlayService: Overlay form hidden successfully');
     } catch (error) {
       console.error('OverlayService: Error hiding overlay:', error);
     } finally {
       this.isHidingOverlay = false;
+      console.log('OverlayService: hideOverlay() completed - isVisible:', this.isOverlayVisible);
     }
   }
 
@@ -320,24 +351,33 @@ export default class OverlayService {
   }
 
   private setupAppStateListener(): void {
+    console.log('OverlayService: setupAppStateListener called');
     this.appStateSubscription = AppState.addEventListener('change', this.handleAppStateChange);
+    console.log('OverlayService: AppState listener registered');
   }
 
   private handleAppStateChange = (nextAppState: AppStateStatus): void => {
-    console.log('OverlayService: App state changed to:', nextAppState, 'Overlay visible:', this.isOverlayVisible);
+    console.log('=====================================');
+    console.log('OverlayService: handleAppStateChange called with', nextAppState);
+    console.log('OverlayService: App state changed to:', nextAppState);
+    console.log('OverlayService: Settings enabled:', this.settings.isEnabled);
+    console.log('OverlayService: Current overlay visible state:', this.isOverlayVisible);
+    console.log('OverlayService: isShowingOverlay:', this.isShowingOverlay);
+    console.log('OverlayService: isHidingOverlay:', this.isHidingOverlay);
+    console.log('OverlayService: Full settings:', JSON.stringify(this.settings));
+    console.log('=====================================');
     
-    if (this.isOverlayVisible && this.settings.isEnabled) {
-      if (nextAppState === 'background' || nextAppState === 'inactive') {
-        // アプリがバックグラウンドに移行した時、ネイティブオーバーレイを確実に表示
-        console.log('OverlayService: App moved to background, ensuring native overlay is visible');
-        this.ensureNativeOverlayVisible();
-      } else if (nextAppState === 'active') {
-        // アプリがフォアグラウンドに戻った時
-        console.log('OverlayService: App moved to foreground');
-      }
-    } else if (nextAppState === 'background') {
+    if (nextAppState === 'active') {
+      // アプリがフォアグラウンドに戻った時は必ずオーバーレイを非表示
+      console.log('OverlayService: 🟢 App moved to FOREGROUND, hiding overlay');
+      this.hideOverlay();
+    } else if ((nextAppState === 'background' || nextAppState === 'inactive') && this.settings.isEnabled) {
+      // アプリがバックグラウンドに移行し、かつオーバーレイが有効な場合のみ表示
+      console.log('OverlayService: 🔴 App moved to BACKGROUND and overlay ENABLED, showing overlay');
+      this.showOverlay();
+    } else if (nextAppState === 'background' || nextAppState === 'inactive') {
       // オーバーレイが無効でアプリがバックグラウンドに移行した場合、サービスを停止
-      console.log('OverlayService: App backgrounded with overlay disabled, stopping service');
+      console.log('OverlayService: 🔴 App moved to BACKGROUND with overlay DISABLED, ensuring overlay is hidden');
       this.hideOverlay();
     }
   };
